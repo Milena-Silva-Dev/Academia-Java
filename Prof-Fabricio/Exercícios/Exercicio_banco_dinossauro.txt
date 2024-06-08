@@ -1,0 +1,37 @@
+CREATE TABLE pais (
+	id serial primary key,
+	nome VARCHAR(50)
+);
+
+CREATE TABLE descoberta (
+	id serial primary key,
+	nome VARCHAR(70),
+	ano CHAR(4),
+	fk_pais INTEGER,
+	FOREIGN KEY (fk_pais) REFERENCES pais(id)
+);
+
+CREATE TABLE era (
+	id serial primary key,
+	nome VARCHAR(50),
+	ano_ini DATE,
+	ano_fim DATE,
+	fk_descoberta INTEGER,
+	FOREIGN KEY (fk_descoberta) REFERENCES descoberta(id)
+);
+
+CREATE TABLE grupo (
+	id serial primary key,
+	nome VARCHAR(50)
+);
+
+CREATE TABLE dinossauro (
+	id serial primary key,
+	nome VARCHAR(100),
+	toneladas CHAR(2),
+	fk_era INTEGER,
+	fk_grupo INTEGER,
+	FOREIGN KEY (fk_era) REFERENCES era(id),
+	FOREIGN KEY (fk_grupo) REFERENCES grupo(id)
+);
+
