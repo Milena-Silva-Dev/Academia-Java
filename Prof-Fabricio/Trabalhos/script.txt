@@ -1,0 +1,100 @@
+CREATE DATABASE locadora
+
+CREATE TABLE endereco (
+	cod_end serial primary key,
+	logradouro VARCHAR(40),
+	tipo_log VARCHAR(40),
+	complemento VARCHAR(20),
+	cidade VARCHAR(60),
+	uf CHAR(2),
+	cep CHAR(8),
+	numero VARCHAR(10),
+	bairro VARCHAR(60)
+);
+
+CREATE TABLE profissao (
+	cod_prof serial primary key,
+	nome VARCHAR(60)
+);
+
+CREATE TABLE categoria (
+	cod_cat serial primary key,
+	nome VARCHAR(60),
+	valor NUMERIC(15,2)
+);
+
+CREATE TABLE genero (
+	cod_gen serial primary key,
+	nome VARCHAR(60)
+);
+
+CREATE TABLE ator (
+	cod_ator serial primary key,
+	nome VARCHAR(60)
+);
+
+CREATE TABLE filmes (
+	cod_filme serial primary key,
+	titulo_original VARCHAR(100),
+	titulo VARCHAR(100),
+	quantidade VARCHAR(100),
+	fk_cod_cat INTEGER,
+	fk_cod_gen INTEGER,
+	FOREIGN KEY (fk_cod_cat) REFERENCES categoria (cod_cat),
+	FOREIGN KEY (fk_cod_gen) REFERENCES genero (cod_gen)
+);
+
+CREATE TABLE filme_ator (
+	fk_cod_ator INTEGER,
+	fk_cod_filme INTEGER,
+	ator CHAR(1),
+	diretor CHAR(1),
+	PRIMARY KEY (fk_cod_ator, fk_cod_filme),
+	FOREIGN KEY (fk_cod_ator) REFERENCES ator (cod_ator),
+	FOREIGN KEY (fk_cod_filme) REFERENCES filmes (cod_filme)
+);	
+
+CREATE TABLE cliente (
+	cod_cliente serial primary key,
+	cpf CHAR(11),
+	nome VARCHAR(60),
+	telefone VARCHAR(10),
+	fk_cod_prof INTEGER,
+	FOREIGN KEY (fk_cod_prof) REFERENCES profissao (cod_prof)
+);
+
+CREATE TABLE dependente (
+    cod_dep serial primary key,
+    fk_cod_cliente INTEGER,
+    parentesco VARCHAR(20),
+    FOREIGN KEY (fk_cod_cliente) REFERENCES cliente (cod_cliente)
+);
+
+CREATE TABLE locacao (
+	cod_loc serial primary key,
+	data_loc DATE,
+	desconto MONEY,
+	multa MONEY,
+	sub_total MONEY,
+	fk_cod_cliente INTEGER,
+    FOREIGN KEY (fk_cod_cliente) REFERENCES cliente (cod_cliente)
+);
+
+CREATE TABLE locacao_filme (
+	fk_cod_loc INTEGER,
+	fk_cod_filme INTEGER,
+	valor MONEY,
+	num_dias INT,
+	data_devol DATE,
+	FOREIGN KEY (fk_cod_loc) REFERENCES locacao (cod_loc),
+	FOREIGN KEY (fk_cod_filme) REFERENCES filmes (cod_filme)
+);
+
+CREATE TABLE cli_endereco (
+	fk_cod_end INTEGER,
+    fk_cod_cliente INTEGER,
+	PRIMARY KEY (fk_cod_end, fk_cod_cliente),
+	FOREIGN KEY (fk_cod_end) REFERENCES endereco (cod_end),
+	FOREIGN KEY (fk_cod_cliente) REFERENCES cliente (cod_cliente)
+);
+
