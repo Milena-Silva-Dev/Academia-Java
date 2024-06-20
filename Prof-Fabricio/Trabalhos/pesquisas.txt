@@ -1,0 +1,271 @@
+1  - Listar todos os filmes alugados por um cliente específico, incluindo a data de locação e a data de devolução.
+
+SELECT 
+    c.nome AS cliente,
+    f.titulo AS filme,
+    l.data_loc AS data_locacao,
+    lf.data_devol AS data_devolucao
+FROM 
+    cliente c
+JOIN 
+    locacao l ON c.cod_cliente = l.fk_cod_cliente
+JOIN 
+    locacao_filme lf ON l.cod_loc = lf.fk_cod_loc
+JOIN 
+    filmes f ON lf.fk_cod_filme = f.cod_filme
+WHERE 
+    c.cod_cliente = 1;
+
+2  - Obter uma lista de clientes e seus dependentes.
+
+SELECT 
+    c.nome AS cliente,
+    d.cod_dep AS cod_dependente,
+    d.parentesco AS parentesco
+FROM 
+    cliente c
+LEFT JOIN 
+    dependente d ON c.cod_cliente = d.fk_cod_cliente
+WHERE 
+    c.cod_cliente = 8
+ORDER BY 
+    d.cod_dep;
+
+3  - Listar todos os filmes de um determinado gênero.
+
+SELECT 
+    f.titulo AS filme,
+    g.nome AS genero
+FROM 
+    filmes f
+JOIN 
+    genero g ON f.fk_cod_gen = g.cod_gen
+WHERE 
+    g.nome = 'Aventura'
+ORDER BY 
+    f.titulo;
+
+4  - Exibir todos os clientes que têm uma profissão específica.
+
+SELECT 
+    c.nome AS cliente,
+    p.nome AS profissao
+FROM 
+    cliente c
+JOIN 
+    profissao p ON c.fk_cod_prof = p.cod_prof
+WHERE 
+    p.nome = 'Professor'
+ORDER BY 
+    c.nome;
+
+5  - Encontrar todos os filmes em uma categoria específica com quantidade disponível maior que 5.
+
+SELECT 
+    f.titulo AS filme,
+    c.nome AS categoria
+FROM 
+    filmes f
+JOIN 
+    categoria c ON f.fk_cod_cat = c.cod_cat
+WHERE 
+    c.nome = 'Drama' AND f.quantidade::integer > 5
+ORDER BY 
+    f.titulo;
+
+6  - Listar todos os atores que participaram de filmes com um determinado título.
+
+SELECT 
+    a.nome AS ator
+FROM 
+    ator a
+JOIN 
+    filme_ator fa ON a.cod_ator = fa.fk_cod_ator
+JOIN 
+    filmes f ON fa.fk_cod_filme = f.cod_filme
+WHERE 
+    f.titulo = 'Titanic';
+
+7  - Obter o endereço completo de um cliente específico.
+
+SELECT 
+    c.nome AS cliente,
+    e.logradouro,
+    e.tipo_log,
+    e.complemento,
+    e.cidade,
+    e.uf,
+    e.cep,
+    e.numero,
+    e.bairro
+FROM 
+    cliente c
+JOIN 
+    cli_endereco ce ON c.cod_cliente = ce.fk_cod_cliente
+JOIN 
+    endereco e ON ce.fk_cod_end = e.cod_end
+WHERE 
+    c.nome = 'Maria Souza';  
+
+8  - Listar todos os filmes e seus respectivos gêneros e categorias.
+
+SELECT 
+    f.titulo AS filme,
+    g.nome AS genero,
+    c.nome AS categoria
+FROM 
+    filmes f
+JOIN 
+    genero g ON f.fk_cod_gen = g.cod_gen
+JOIN 
+    categoria c ON f.fk_cod_cat = c.cod_cat
+ORDER BY 
+    f.titulo;
+
+9  - Mostrar todos os clientes que alugaram um filme específico e a data de locação.
+
+SELECT 
+    c.nome AS cliente,
+    f.titulo AS filme,
+    loc.data_loc AS data_locacao
+FROM 
+    locacao loc
+JOIN 
+    cliente c ON loc.fk_cod_cliente = c.cod_cliente
+JOIN 
+    locacao_filme lf ON loc.cod_loc = lf.fk_cod_loc
+JOIN 
+    filmes f ON lf.fk_cod_filme = f.cod_filme
+WHERE 
+    f.titulo = 'Matrix' 
+ORDER BY 
+    loc.data_loc;
+
+10 - Exibir a lista de clientes com multas superiores a um valor específico.
+
+SELECT 
+    c.nome AS cliente,
+    loc.multa
+FROM 
+    locacao loc
+JOIN 
+    cliente c ON loc.fk_cod_cliente = c.cod_cliente
+WHERE 
+    loc.multa::numeric > 2.00; 
+
+11 - Listar todas as locações feitas em um período específico.
+
+SELECT
+    loc.fk_cod_cliente,
+    c.nome AS cliente,
+    loc.data_loc,
+    loc.sub_total,
+    loc.desconto,
+    loc.multa
+FROM
+    locacao loc
+JOIN
+    cliente c ON loc.fk_cod_cliente = c.cod_cliente
+WHERE
+    loc.data_loc BETWEEN '2024-06-01' AND '2024-06-10'
+ORDER BY
+    loc.data_loc;
+
+12 - Obter a quantidade total de filmes alugados por cada cliente. (DESAFIO)
+
+SELECT
+    c.nome AS cliente,
+    COUNT(lf.fk_cod_loc) AS total_filmes_alugados
+FROM
+    cliente c
+LEFT JOIN
+    locacao loc ON c.cod_cliente = loc.fk_cod_cliente
+LEFT JOIN
+    locacao_filme lf ON loc.cod_loc = lf.fk_cod_loc
+GROUP BY
+    c.nome
+ORDER BY
+    total_filmes_alugados DESC;
+
+13 - Listar os clientes e os filmes que eles alugaram, ordenados por data de locação.
+
+SELECT
+    c.nome AS cliente,
+    f.titulo AS filme,
+    loc.data_loc AS data_locacao
+FROM
+    cliente c
+JOIN
+    locacao loc ON c.cod_cliente = loc.fk_cod_cliente
+JOIN
+    locacao_filme lf ON loc.cod_loc = lf.fk_cod_loc
+JOIN
+    filmes f ON lf.fk_cod_filme = f.cod_filme
+ORDER BY
+    loc.data_loc;
+
+14 - Mostrar todos os clientes que moram em uma cidade específica e que alugaram filmes de uma categoria específica.
+
+SELECT
+    c.nome AS cliente,
+    e.logradouro AS logradouro,
+    e.numero AS numero,
+    e.complemento AS complemento,
+    e.bairro AS bairro,
+    e.cidade AS cidade,
+    e.uf AS uf,
+    e.cep AS cep
+FROM
+    cliente c
+JOIN
+    cli_endereco ce ON c.cod_cliente = ce.fk_cod_cliente
+JOIN
+    endereco e ON ce.fk_cod_end = e.cod_end
+JOIN
+    locacao loc ON c.cod_cliente = loc.fk_cod_cliente
+JOIN
+    locacao_filme lf ON loc.cod_loc = lf.fk_cod_loc
+JOIN
+    filmes f ON lf.fk_cod_filme = f.cod_filme
+JOIN
+    categoria cat ON f.fk_cod_cat = cat.cod_cat
+WHERE
+    e.cidade = 'Rio de Janeiro'  
+    AND cat.nome = 'Aventura'; 
+
+15 - Encontrar todos os atores que participaram de pelo menos 5 filmes, listando o nome do ator e o número de filmes em que atuou. (DESAFIO)
+
+SELECT
+    a.nome AS nome_ator,
+    COUNT(fa.fk_cod_filme) AS num_filmes
+FROM
+    ator a
+JOIN
+    filme_ator fa ON a.cod_ator = fa.fk_cod_ator
+GROUP BY
+    a.nome
+HAVING
+    COUNT(fa.fk_cod_filme) >= 5
+ORDER BY
+    num_filmes DESC;
+
+16 - Exibir a quantidade total de filmes alugados por categoria e gênero, incluindo apenas as categorias e gêneros que têm mais de 50 filmes alugados no total (DESAFIO)
+
+SELECT
+    c.nome AS categoria,
+    g.nome AS genero,
+    COUNT(lf.fk_cod_filme) AS quantidade_total
+FROM
+    locacao_filme lf
+JOIN
+    filmes f ON lf.fk_cod_filme = f.cod_filme
+JOIN
+    categoria c ON f.fk_cod_cat = c.cod_cat
+JOIN
+    genero g ON f.fk_cod_gen = g.cod_gen
+GROUP BY
+    c.nome, g.nome
+HAVING
+    COUNT(lf.fk_cod_filme) > 50
+ORDER BY
+    quantidade_total DESC;
