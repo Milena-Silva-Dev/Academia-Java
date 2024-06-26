@@ -1,20 +1,70 @@
+-- Criação do banco de dados
+CREATE DATABASE dinossauro;
+
+-- Criação das tabelas
+CREATE TABLE regioes
+(
+	id serial primary key,
+	nome varchar(70) not null
+);
+
+CREATE TABLE grupos
+(
+	id serial primary key,
+	nome varchar(30) not null
+);
+
+CREATE TABLE eras
+(
+	id serial primary key,
+	nome varchar(30) not null,
+	inicio_era integer,
+	fim_era integer
+);
+
+CREATE TABLE descobridores
+(
+	id serial primary key,
+	nome varchar(80) not null
+);
+
+CREATE TABLE dinossauros
+(
+	id serial primary key,
+	nome varchar(70) not null,
+	toneladas integer not null,
+	ano_descoberta integer not null,
+	fk_grupo integer,
+	fk_descobridor integer,
+	fk_era integer,
+	inicio_dinossauro integer,
+	fim_dinossauro integer,
+	fk_regiao integer,
+	FOREIGN KEY (fk_grupo) REFERENCES grupos(id),
+	FOREIGN KEY (fk_descobridor) REFERENCES descobridores(id),
+	FOREIGN KEY (fk_era) REFERENCES eras(id),
+	FOREIGN KEY (fk_regiao) REFERENCES regioes(id)
+);
+
+-- Atividade Triggers
 CREATE OR REPLACE FUNCTION verificaera() RETURNS TRIGGER AS $BODY$
 DECLARE
 	inicio_era INTEGER;
 	fim_era INTEGER;
 BEGIN
-	SELECT inicio, fim INTO inicio_era, fim_era FROM eras WHERE id = NEW.fk_era;
-	IF (NEW.inicio >= inicio_era AND NEW.fim <= fim_era) 
-	THEN
-	RAISE NOTICE 'Período do dinossauro está dentro do período da era (%-%s)', NEW.inicio, NEW.fim, inicio_era, fim_era;
-	RETURN NEW;
+	SELECT inicio_era, fim_era INTO inicio_era, fim_era FROM eras WHERE id = NEW.fk_era;
+
+	IF (NEW.inicio_dinossauro >= inicio_era AND NEW.fim_dinossauro <= fim_era) THEN
+		RAISE NOTICE 'Período do dinossauro (%s-%s) está dentro do período da era (%s-%s)', NEW.inicio_dinossauro, NEW.fim_dinossauro, inicio_era, fim_era;
+		RETURN NEW;
 	ELSE
-	RAISE NOTICE 'Período do dinossauro está fora do período da era (%-%s)', NEW.inicio, NEW.fim, inicio_era, fim_era;
-	RETURN NULL;
+		RAISE NOTICE 'Período do dinossauro (%s-%s) está fora do período da era (%s-%s)', NEW.inicio_dinossauro, NEW.fim_dinossauro, inicio_era, fim_era;
+		RETURN NULL;
 	END IF;
 END;
 $BODY$ LANGUAGE plpgsql;
 
+-- Trigger valida_era
 CREATE TRIGGER valida_era
 BEFORE INSERT OR UPDATE ON dinossauros
 FOR EACH ROW EXECUTE FUNCTION verificaera();
