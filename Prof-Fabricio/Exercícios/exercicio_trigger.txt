@@ -1,0 +1,20 @@
+CREATE OR REPLACE FUNCTION verificaera() RETURNS TRIGGER AS $BODY$
+DECLARE
+	inicio_era INTEGER;
+	fim_era INTEGER;
+BEGIN
+	SELECT inicio, fim INTO inicio_era, fim_era FROM eras WHERE id = NEW.fk_era;
+	IF (NEW.inicio >= inicio_era AND NEW.fim <= fim_era) 
+	THEN
+	RAISE NOTICE 'Período do dinossauro está dentro do período da era (%-%s)', NEW.inicio, NEW.fim, inicio_era, fim_era;
+	RETURN NEW;
+	ELSE
+	RAISE NOTICE 'Período do dinossauro está fora do período da era (%-%s)', NEW.inicio, NEW.fim, inicio_era, fim_era;
+	RETURN NULL;
+	END IF;
+END;
+$BODY$ LANGUAGE plpgsql;
+
+CREATE TRIGGER valida_era
+BEFORE INSERT OR UPDATE ON dinossauros
+FOR EACH ROW EXECUTE FUNCTION verificaera();
