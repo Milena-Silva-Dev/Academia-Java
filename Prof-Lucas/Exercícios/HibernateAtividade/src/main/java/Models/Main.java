@@ -1,4 +1,5 @@
 package Models;
+
 import DAO.DepartamentoDAO;
 import DAO.FuncionarioDAO;
 import Models.Departamento;
@@ -11,14 +12,16 @@ public class Main {
         DepartamentoDAO departamentoDAO = new DepartamentoDAO();
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 
-        Departamento departamento = null;
+        Departamento departamento = Departamento.builder()
+                .nome("RH")
+                .build();
+        departamentoDAO.save(departamento);
+
         Funcionario funcionario = Funcionario.builder()
                 .nome("Ana")
                 .salario(BigDecimal.valueOf(3000))
                 .departamento(departamento)
                 .build();
-
-        departamentoDAO.save(departamento);
         funcionarioDAO.save(funcionario);
 
         System.out.println(departamentoDAO.findAll());
