@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 3: Alterar Cor do Plano de Fundo</title>
+    <style>
+        body {
+            text-align: center;
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.5s ease;
+        }
+        .color-option {
+            margin: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Escolha uma cor</h1>
+    <label class="color-option">
+        <input type="radio" name="color" value="red" onchange="changeColor(this.value)"> Vermelho
+    </label>
+    <label class="color-option">
+        <input type="radio" name="color" value="green" onchange="changeColor(this.value)"> Verde
+    </label>
+    <label class="color-option">
+        <input type="radio" name="color" value="blue" onchange="changeColor(this.value)"> Azul
+    </label>
+    <label class="color-option">
+        <input type="radio" name="color" value="yellow" onchange="changeColor(this.value)"> Amarelo
+    </label>
+
+    <script>
+        function changeColor(color) {
+            document.body.style.backgroundColor = color;
+        }
+    </script>
+</body>
+</html>

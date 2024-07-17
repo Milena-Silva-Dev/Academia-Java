@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 2: Alterar Cor do Plano de Fundo</title>
+    <style>
+        body {
+            text-align: center;            
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.5s ease;
+        }
+        a {
+            display: block;
+            padding: 10px;
+            margin: 10px;
+            text-decoration: none;
+            color: black;
+            font-size: 20px;
+        }
+        a:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Escolha uma cor</h1>
+    <form id="colorForm">
+    <a href="#" onmouseover="changeColor('red')">Vermelho</a>
+    <a href="#" onmouseover="changeColor('green')">Verde</a>
+    <a href="#" onmouseover="changeColor('blue')">Azul</a>
+    <a href="#" onmouseover="changeColor('yellow')">Amarelo</a>
+    </form>
+    <script>
+        function changeColor(color) {
+            document.body.style.backgroundColor = color;
+        }
+    </script>
+</body>
+</html>

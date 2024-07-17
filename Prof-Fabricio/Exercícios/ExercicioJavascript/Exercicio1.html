@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 1: Alterar Cor do Plano de Fundo</title>
+    <style>
+        body {
+            text-align: center;
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Escolha um botão</h1>
+    <form id="colorForm">
+        <button type="button" onclick="changeColor('red')">Vermelho</button>
+        <button type="button" onclick="changeColor('green')">Verde</button>
+        <button type="button" onclick="changeColor('blue')">Azul</button>
+        <button type="button" onclick="changeColor('yellow')">Amarelo</button>
+    </form>
+    <script>
+        function changeColor(color) {
+            document.body.style.backgroundColor = color;
+        }
+    </script>
+</body>
+</html>

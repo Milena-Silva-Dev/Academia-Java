@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 4: Ocultar o Parágrafo</title>
+    <style>
+        body {
+            text-align: center;
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Clique no botão para ocultar o parágrafo</h1>
+    <br>
+    <p id="text">Este é o texto do parágrafo que será ocultado ou mostrado.</p>
+    <br>
+    <button onclick="toggleVisibility()">Clique Aqui</button>
+    <script>
+        function toggleVisibility() {
+            var paragraph = document.getElementById('text');
+            if (paragraph.style.display === 'none') {
+                paragraph.style.display = 'block';
+            } else {
+                paragraph.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
