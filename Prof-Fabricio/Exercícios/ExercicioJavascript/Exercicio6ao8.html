@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 6 ao 8: Manipular o Parágrafo</title>
+    <style>
+        body {
+            text-align: center;            
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+        #text {
+            transition: color 0.5s ease, 
+            background-color 0.5s ease, 
+            font-size 0.5s ease;
+            padding: 10px;
+        }
+        .button-group {
+            margin-bottom: 20px;
+        }
+        .button-group button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Selecione os botões para manipular o texto abaixo:</h1>
+    <p id="text">Este é o texto que você pode manipular.</p>
+    <div class="button-group">
+        <button onclick="changeTextColor('black')">Fonte Preta</button>
+        <button onclick="changeTextColor('white')">Fonte Branca</button>
+        <button onclick="changeBackgroundColor('black')">Fundo Preto</button>
+        <button onclick="changeBackgroundColor('white')">Fundo Branco</button>
+    </div>
+    <div class="button-group">
+        <button onclick="changeFontSize(2)">+</button>
+        <button onclick="changeFontSize(-2)">-</button>
+    </div>
+    <div class="button-group">
+        <button onclick="transformText('uppercase')">Texto Maiúsculo</button>
+        <button onclick="transformText('lowercase')">Texto Minúsculo</button>
+    </div>
+    <script>
+        function changeTextColor(color) {
+            document.getElementById('text').style.color = color;
+        }
+
+        function changeBackgroundColor(color) {
+            document.getElementById('text').style.backgroundColor = color;
+        }
+
+        function changeFontSize(amount) {
+            const paragraph = document.getElementById('text');
+            const currentSize = window.getComputedStyle(paragraph).fontSize;
+            const currentSizeInPx = parseFloat(currentSize);
+            paragraph.style.fontSize = (currentSizeInPx + amount) + 'px';
+        }
+
+        function transformText(transformType) {
+            document.getElementById('text').style.textTransform = transformType;
+        }
+    </script>
+</body>
+</html>

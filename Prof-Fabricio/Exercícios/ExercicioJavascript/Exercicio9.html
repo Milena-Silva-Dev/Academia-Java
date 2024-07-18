@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 9: Formulário de Cadastro</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Verdana', sans-serif;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .info {
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: block; 
+            margin: 20px auto 0 auto;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <form id="registrationForm" onsubmit="return validateForm()">
+        <h1>Cadastro de Usuário</h1>
+        
+        <label for="login">Login:</label>
+        <input type="text" id="login" name="login" placeholder="Digite seu login">
+
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" placeholder="Digite sua senha">
+        <div class="info">Crie uma senha entre 6 e 10 caracteres.</div>
+        
+        <label for="confirmPassword">Confirmar Senha:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirme sua senha">
+
+        <span id="errorMessage" class="error"></span>
+        
+        <button type="submit">Cadastrar</button>
+    </form>
+    <script>
+        function validateForm() {
+            var login = document.getElementById('login').value;
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+            var errorMessage = document.getElementById('errorMessage');
+            
+            errorMessage.textContent = '';
+
+            if (login === '' || password === '' || confirmPassword === '') {
+                errorMessage.textContent = 'Todos os campos devem ser preenchidos.';
+                return false;
+            }
+
+            if (password.length < 6 || password.length > 10) {
+                errorMessage.textContent = 'A senha deve ter entre 6 e 10 caracteres.';
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'As senhas não coincidem.';
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>
